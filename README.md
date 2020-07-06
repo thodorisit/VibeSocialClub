@@ -1,4 +1,5 @@
-# vibrate_social_club
+# VibrateSocialClub
+## A different way to share your vibe!
 
 ## Project setup
 ```
