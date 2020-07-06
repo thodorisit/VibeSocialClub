@@ -1,30 +1,16 @@
-# VibrateSocialClub
-## A different way to share your vibe!
+<img width="300" alt="waiterbell logo" src="https://user-images.githubusercontent.com/3685481/86575635-473b2900-bf80-11ea-964a-5f9eef18d738.png">
 
-## Project setup
-```
-npm install
-```
+[Visit VibrateSocialClub's page](https://thodorisit.github.io/VibrateSocialClub/dist/#/)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Are you ready to share your vibe in a different way?
 
-### Compiles and minifies for production
-```
-npm run build
-```
+[Visit VibrateSocialClub's page](https://thodorisit.github.io/VibrateSocialClub/dist/#/), record your vibe and share it to your loved ones.
 
-### Run your tests
-```
-npm run test
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
+#### Built With
+* ##### [VueJS](https://vuejs.org/)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### License
+This project is licensed under the MIT License
+
+##### Crafted by [Thodoris Itsios](https://itsios.eu) (https://itsios.eu)
