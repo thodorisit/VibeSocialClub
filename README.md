@@ -4,7 +4,8 @@
 
 ## Are you ready to share your vibe in a different way?
 
-[Visit VibeSocialClub's page](https://thodorisit.github.io/VibeSocialClub/dist/#/), record your vibe and share it to your loved ones.
+#### [Visit VibeSocialClub's page](https://thodorisit.github.io/VibeSocialClub/dist/#/), record your vibe and share it to your loved ones.
+##### Disclaimer: The playback device must have vibration hardware & support vibration (smartphones, tablets, etc.).
 
 
 #### Built With
