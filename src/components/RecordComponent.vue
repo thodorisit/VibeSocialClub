@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TopMenuComponent></TopMenuComponent>
+        <TopMenuComponent show-new-vibe="no"></TopMenuComponent>
 
         <div class="d-block content width-90 pb-6"></div>
 
@@ -15,16 +15,25 @@
             </div>
         </div>
 
-        <div class="d-flex justify-content--center mt-6 pt-6">
+        <div class="d-flex justify-content--center mt-4 pt-6">
              <div class="recording-line">
                  <div class="recording-line--black"></div>
                  <div id="_recording_line__loaded" class="recording-line--loaded"></div>
              </div>
         </div>
 
-        <div class="d-block content width-90 font-align-center mt-6">
+        <div class="d-flex align-items--center justify-content--center unselectable mt-6 information-box">
+            <div class="d-flex align-items--center justify-content--center">
+                <router-link to="/learn" class="d-inline-block col-16 font-align-center font-s p-2 notice-message">How it works</router-link>
+                <router-link to="/contact" class="d-inline-block col-16 font-align-center font-s p-2 mt-3">
+                    <div>Contact us</div>
+                </router-link>
+            </div>
+        </div>
+
+        <div class="d-block content width-90 font-align-center mt-5 mb-6">
             <a target="_blank" href="https://itsios.eu/">
-                <div class="font-sm color-white pt-6" style="opacity:0.5;">Crafted by <span class="font-weight-bold">Thodoris Itsios.</span></div>
+                <div class="font-sm color-white" style="opacity:0.7;">Developed by <span class="font-weight-bold">Thodoris Itsios.</span></div>
             </a>
         </div>
 
@@ -73,19 +82,71 @@ export default {
 </script>
 
 <style scoped>
+    .notice-message {
+        border-radius: 5px;
+        color: #FFFFFF;
+        border: 1px rgba(255,255,255,0.8) solid;
+        box-shadow:
+            inset 0 0 20px rgba(255,255,255,0.5),
+            0 0 20px rgba(255,255,255,0.5),
+            -6px 0 10px rgba(255, 51, 0, 0.2),
+            6px 0 10px rgba(251, 255, 0, 0.3);
+    }
+    .information-box {
+        background:#cc9901;
+        position: relative;
+        overflow: hidden;
+        width: 90%;
+        margin:0 auto;
+        padding-top:30px;
+        padding-bottom:20px;box-shadow: 0 1px 1px rgba(0,0,0,0.11), 
+              0 2px 2px rgba(0,0,0,0.11), 
+              0 4px 4px rgba(0,0,0,0.11), 
+              0 8px 8px rgba(0,0,0,0.11), 
+              0 16px 16px rgba(0,0,0,0.11), 
+              0 32px 32px rgba(0,0,0,0.11);
+        border-radius: 3px;
+    }
+    /* .aaa::before {
+        content: "";
+        position: absolute;
+        display: block;
+        width: 0px;
+        height: 0px;
+        top: 0px;
+        left: 0px;
+        margin: 0;
+        border-style: solid;
+        border-width: 0px 0 30px 100vw;
+        border-color: transparent transparent #cc9901 transparent;
+    }
+    .aaa::after {
+        content: "";
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0px;
+        bottom: 0px;
+        left: 0px;
+        margin: 0;
+        border-style: solid;
+        border-width: 20px 100vw 0 0;
+        border-color: #cc9901 transparent transparent transparent;
+    } */
 
     .recording-line {
         position: relative;
         width:80%;
         height:10px;
-        background: #0f0f0f;
+        background: #dc193a;
         border-radius: 5px;
+        margin-bottom:20px;
     }
     .recording-line--black {
         position: absolute;
         width:100%;
         height:10px;
-        background:#0f0f0f;
+        background:transparent;
         border-radius: 5px;
         z-index: 2;
     }
@@ -95,16 +156,16 @@ export default {
         height:10px;
         width:96%;
         left:2%;
-        background-color: #0f0f0f;
+        background-color: #dc193a;
         border-radius: 5px;
     }
     .recording-line--loaded.animation {
+        background:#cc9901;
         box-shadow:
-            inset 0 0 10px #fff,
-            inset -5px 0 150px rgb(0, 255, 179),
-            0 0 25px #fff,
-            -6px 0 20px rgb(0, 26, 255),
-            6px 0 20px rgb(0, 255, 13);
+            inset 0 0 20px rgba(255,255,255,0.8),
+            0 0 20px rgba(255,255,255,0.8),
+            -6px 0 10px rgba(255, 255, 255, 0.5),
+            6px 0 10px rgba(251, 255, 0, 0.7);
         -webkit-animation: recording-line--loaded 10s;
         -moz-animation: recording-line--loaded 10s;
         -o-animation: recording-line--loaded 10s;
@@ -118,6 +179,34 @@ export default {
             width:96%;
         }
     }
+
+
+    @keyframes bottomright {
+        0% {
+            width: 0;
+            height: 0;
+            padding-top: 0;
+            visibility: visible;
+        }
+        25% {
+            width: 100%;
+            height: 0;
+            padding-top: 0;
+            visibility: visible;
+        }
+        50% {
+            height: 100%;
+            width: 100%;
+            visibility: visible;
+        }
+        75% {
+            visibility: visible;
+        }
+        100% {
+            visibility: visible;
+        }
+    }
+
 
     .vibrate-button {
         position: relative;
@@ -156,24 +245,24 @@ export default {
         0%, 100% {
             box-shadow:
                 inset 0 0 25px #fff,
-                inset 5px 0 20px rgb(94, 255, 0),
-                inset -5px 0 20px rgb(0, 255, 213),
-                inset 5px 0 50px rgba(0, 140, 255, 0.4),
-                inset -5px 0 50px rgba(0, 255, 179, 0.4),
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset -5px 0 20px rgb(238, 255, 0),
+                inset 5px 0 50px rgba(255, 0, 43, 0.4),
+                inset -5px 0 50px rgba(255, 196, 0, 0.4),
                 0 0 25px #fff,
-                -6px 0 20px rgb(0, 26, 255),
-                6px 0 20px rgb(0, 255, 13);
+                -6px 0 20px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
         50% {
             box-shadow:
-                inset 0 0 13px #fff,
-                inset 5px 0 40px rgb(0, 255, 213),
-                inset -5px 0 40px rgb(94, 255, 0),
-                inset 5px 0 75px rgb(0, 255, 179),
-                inset -5px 0 75px rgb(0, 140, 255),
-                0 0 13px #fff,
-                -3px 0 40px rgb(0, 255, 13),
-                3px 0 40px rgb(0, 26, 255);
+                inset 0 0 25px #fff,
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset 0px 0 10px rgb(238, 255, 0),
+                inset 20px 0 20px rgba(255, 0, 43, 0.4),
+                inset 30px 0 30px rgba(255, 196, 0, 0.4),
+                0 0 50px #fff,
+                20px 0 50px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
     }
 
@@ -181,24 +270,24 @@ export default {
         0%, 100% {
             box-shadow:
                 inset 0 0 25px #fff,
-                inset 5px 0 20px rgb(94, 255, 0),
-                inset -5px 0 20px rgb(0, 255, 213),
-                inset 5px 0 50px rgba(0, 140, 255, 0.4),
-                inset -5px 0 50px rgba(0, 255, 179, 0.4),
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset -5px 0 20px rgb(238, 255, 0),
+                inset 5px 0 50px rgba(255, 0, 43, 0.4),
+                inset -5px 0 50px rgba(255, 196, 0, 0.4),
                 0 0 25px #fff,
-                -6px 0 20px rgb(0, 26, 255),
-                6px 0 20px rgb(0, 255, 13);
+                -6px 0 20px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
         50% {
             box-shadow:
-                inset 0 0 13px #fff,
-                inset 5px 0 40px rgb(0, 255, 213),
-                inset -5px 0 40px rgb(94, 255, 0),
-                inset 5px 0 75px rgb(0, 255, 179),
-                inset -5px 0 75px rgb(0, 140, 255),
-                0 0 13px #fff,
-                -3px 0 40px rgb(0, 255, 13),
-                3px 0 40px rgb(0, 26, 255);
+                inset 0 0 25px #fff,
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset 0px 0 10px rgb(238, 255, 0),
+                inset 20px 0 20px rgba(255, 0, 43, 0.4),
+                inset 30px 0 30px rgba(255, 196, 0, 0.4),
+                0 0 50px #fff,
+                20px 0 50px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
     }
 
@@ -206,24 +295,24 @@ export default {
         0%, 100% {
             box-shadow:
                 inset 0 0 25px #fff,
-                inset 5px 0 20px rgb(94, 255, 0),
-                inset -5px 0 20px rgb(0, 255, 213),
-                inset 5px 0 50px rgba(0, 140, 255, 0.4),
-                inset -5px 0 50px rgba(0, 255, 179, 0.4),
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset -5px 0 20px rgb(238, 255, 0),
+                inset 5px 0 50px rgba(255, 0, 43, 0.4),
+                inset -5px 0 50px rgba(255, 196, 0, 0.4),
                 0 0 25px #fff,
-                -6px 0 20px rgb(0, 26, 255),
-                6px 0 20px rgb(0, 255, 13);
+                -6px 0 20px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
         50% {
             box-shadow:
-                inset 0 0 13px #fff,
-                inset 5px 0 40px rgb(0, 255, 213),
-                inset -5px 0 40px rgb(94, 255, 0),
-                inset 5px 0 75px rgb(0, 255, 179),
-                inset -5px 0 75px rgb(0, 140, 255),
-                0 0 13px #fff,
-                -3px 0 40px rgb(0, 255, 13),
-                3px 0 40px rgb(0, 26, 255);
+                inset 0 0 25px #fff,
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset 0px 0 10px rgb(238, 255, 0),
+                inset 20px 0 20px rgba(255, 0, 43, 0.4),
+                inset 30px 0 30px rgba(255, 196, 0, 0.4),
+                0 0 50px #fff,
+                20px 0 50px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
     }
 
@@ -231,24 +320,24 @@ export default {
         0%, 100% {
             box-shadow:
                 inset 0 0 25px #fff,
-                inset 5px 0 20px rgb(94, 255, 0),
-                inset -5px 0 20px rgb(0, 255, 213),
-                inset 5px 0 50px rgba(0, 140, 255, 0.4),
-                inset -5px 0 50px rgba(0, 255, 179, 0.4),
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset -5px 0 20px rgb(238, 255, 0),
+                inset 5px 0 50px rgba(255, 0, 43, 0.4),
+                inset -5px 0 50px rgba(255, 196, 0, 0.4),
                 0 0 25px #fff,
-                -6px 0 20px rgb(0, 26, 255),
-                6px 0 20px rgb(0, 255, 13);
+                -6px 0 20px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
         50% {
             box-shadow:
-                inset 0 0 13px #fff,
-                inset 5px 0 40px rgb(0, 255, 213),
-                inset -5px 0 40px rgb(94, 255, 0),
-                inset 5px 0 75px rgb(0, 255, 179),
-                inset -5px 0 75px rgb(0, 140, 255),
-                0 0 13px #fff,
-                -3px 0 40px rgb(0, 255, 13),
-                3px 0 40px rgb(0, 26, 255);
+                inset 0 0 25px #fff,
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset 0px 0 10px rgb(238, 255, 0),
+                inset 20px 0 20px rgba(255, 0, 43, 0.4),
+                inset 30px 0 30px rgba(255, 196, 0, 0.4),
+                0 0 50px #fff,
+                20px 0 50px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
     }
 </style>
