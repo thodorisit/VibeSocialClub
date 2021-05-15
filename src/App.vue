@@ -14,6 +14,7 @@
 </script>
 
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
     html {
         font-size:16px;
     }
@@ -27,10 +28,10 @@
         user-select: none;
     }
     body {
-        background:#0f0f0f;
+        background:#dc193a;
         padding:0;
         margin:0;
-        font-family: Arial;
+        font-family: 'Roboto', sans-serif;
         word-wrap: break-word;
         color: #ffffff;
     }
@@ -315,12 +316,12 @@
 .col-20 {width: 100%;}
 .hide-sm {display: block;}
 .hide-xl {display: none;}
-@media only screen and (max-width: 800px) {
+/* @media only screen and (max-width: 800px) {
     .col-1,.col-2,.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12,
     .col-13,.col-14,.col-15,.col-16,.col-17,.col-18,.col-19,.col-20 {width: 100%;}
     .hide-sm {display: none;}
     .hide-xl {display: block;}
-}
+} */
 
 .overflow-hidden {overflow: hidden;}
 .overflow-x-hidden {overflow-x: hidden;}
