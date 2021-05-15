@@ -2,10 +2,13 @@
     <div>
         <div class="top-menu-container mb-3">
             <div class="top-menu-content">
-                <img class="logo" src="img/logo.svg"/>
-                <router-link to="/">
-                    <div class="new-vibe-button font-weight-light">New Vibe </div>
+                <img class="logo" src="img/logo.png"/>
+                <router-link to="/" v-if="showNewVibeButton">
+                    <div class="new-vibe-button font-weight-light">New Vibe</div>
                 </router-link>
+            </div>
+            <div @click="goHistoryBack" v-if="showBackButton" class="d-block mb-5">
+                <div class="new-vibe-button font-weight-light font-align-center">Back</div>
             </div>
         </div>
     </div>
@@ -14,13 +17,42 @@
 <script>
 export default {
     name: 'TopMenuComponent',
+    props: {
+        showNewVibe : String,
+        showBack : String
+    },
+    watch: {
+        showNewVibe: {
+            immediate: true,
+            deep: true,
+            handler(newVal) {
+                if (newVal == 'no') {
+                    this.showNewVibeButton = false;
+                }
+            }
+        },
+        showBack: {
+            immediate: true,
+            deep: true,
+            handler(newVal) {
+                if (newVal == 'yes') {
+                    this.showBackButton = true;
+                }
+            }
+        },
+    },
     mounted() {
     },
     data: function() {
         return {
+            showNewVibeButton : true,
+            showBackButton : false
         }
     },
     methods: {
+        goHistoryBack : function() {
+            window.history.back();
+        }
     }
 }
 </script>
@@ -61,7 +93,7 @@ export default {
     position: relative;
     display: inline-block;
     width: 50%;
-    max-width: 140px;
+    max-width: 100px;
     margin-top:20px;
 }
 
@@ -70,13 +102,11 @@ export default {
     top:10px;
     padding:10px;
     border-radius: 20px;
+    border: 1px rgba(255,255,255,0.8) solid;
     box-shadow:
-                inset 2px 0 10px rgba(94, 255, 0, 0.1),
-                inset -2px 0 10px rgba(0, 255, 213, 0.1),
-                inset 2px 0 75px rgba(0, 140, 255, 0.1),
-                inset -2px 0 75px rgba(0, 255, 179, 0.1),
-                0 0 1px #fff,
-                -3px 0 30px rgba(0, 26, 255, 0.3),
-                3px 0 5px rgba(0, 255, 13, 0.3);
+        inset 0 0 20px rgba(255,255,255,0.5),
+        0 0 20px rgba(255,255,255,0.5),
+        -6px 0 10px rgba(255, 51, 0, 0.2),
+        6px 0 10px rgba(251, 255, 0, 0.3);
 }
 </style>
