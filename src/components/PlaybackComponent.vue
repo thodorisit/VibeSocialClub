@@ -34,10 +34,26 @@
             </div>
         </div>
 
-        <div class="d-block content width-90 font-align-center">
+        <div class="d-flex align-items--center justify-content--center unselectable mt-6 information-box">
+            <router-link to="/learn" class="d-inline-block col-16 font-align-center font-s p-2 notice-message">How it works</router-link>
+            <router-link to="/contact" class="d-inline-block col-16 font-align-center font-s p-2 mt-3">
+                <div>Contact us</div>
+            </router-link>
+        </div>
+
+        <div class="d-block content width-90 font-align-center mt-5 mb-6">
             <a target="_blank" href="https://itsios.eu/">
-                <div class="font-sm color-white pt-2" style="opacity:0.5;">Crafted by <span class="font-weight-bold">Thodoris Itsios.</span></div>
+                <div class="font-sm color-white" style="opacity:0.7;">Developed by <span class="font-weight-bold">Thodoris Itsios.</span></div>
             </a>
+        </div>
+
+        <div v-if="popup_for_vibration" class="overlay">
+            <div class="popup">
+                <a class="close" @click="hidePopUpForVibration">&times;</a>
+                <div class="content color-black font-m">
+                    Don't forget to enable the vibration!
+                </div>
+            </div>
         </div>
 
     </div>
@@ -45,6 +61,7 @@
 
 <script>
 import GeneralMixins from '@/mixins/GeneralMixins.js'
+import CookiesJS from '@/helpers/CookiesJS.js'
 export default {
     name: 'PlaybackComponent',
     mixins: [GeneralMixins],
@@ -56,28 +73,50 @@ export default {
             immediate: true,
             deep: true,
             handler(newVal) {
-                this.shareUrl = window.envData.url + '/#/playback/' + newVal;
+                this.shareUrl__copy = window.envData.url + '/#/playback/' + newVal;
+                this.shareUrl = window.envData.url + '/%23/playback/' + newVal;
                 this.record.final = JSON.parse('['+newVal+']');
             }
         }
     },
     mounted() {
+        //START:: Check if cookies is set to hide popup for vibration
+        var foundCookieForVibration = CookiesJS.getCookie('popup_for_vibration');
+        if (foundCookieForVibration) {
+            this.popup_for_vibration = false;
+        }
         //Disable right click for debugging purpose
         //document.addEventListener('contextmenu', event => event.preventDefault());
     },
     data: function() {
         return {
+            shareUrl__copy : "",
             shareUrl : "",
             record : {
                 final : []
-            }
+            },
+            popup_for_vibration : true
         }
     },
     methods: {
         playVibe : function() {
             window.console.log(this.record.final);
+            /** START:: Check if playing is bigger than 10s */
+                var sum = 0;
+                for (var i=0; i<this.record.final.length; i++) {
+                    sum += this.record.final[i];
+                }
+            /** END:: Check if playing is bigger than 10s */
             window.navigator.vibrate(0);
-            window.navigator.vibrate(this.record.final);
+            if (sum < 20000) {
+                window.navigator.vibrate(this.record.final);
+            } else {
+                window.console.log('Ooops, your vibe exceeds 20s!');
+            }
+        },
+        hidePopUpForVibration : function() {
+            this.popup_for_vibration = false;
+            CookiesJS.setCookie('popup_for_vibration', 1, 2);
         },
         sharePostFacebook : function() {
             var social_link = 'fb://faceweb/f?href=https://www.facebook.com/sharer/sharer.php?u='+this.shareUrl;
@@ -103,7 +142,7 @@ export default {
             document.body.appendChild(hidden_input);
             hidden_input.setAttribute("id", "hidden_input__clipboard_id");
             //hidden_input.setAttribute("hidden", "true");
-            document.getElementById("hidden_input__clipboard_id").value = this.shareUrl;
+            document.getElementById("hidden_input__clipboard_id").value = this.shareUrl__copy;
             hidden_input.select();
             document.execCommand("copy");
             document.body.removeChild(hidden_input);
@@ -114,6 +153,31 @@ export default {
 </script>
 
 <style scoped>
+    .information-box {
+        background:#cc9901;
+        position: relative;
+        overflow: hidden;
+        width: 90%;
+        margin:0 auto;
+        padding-top:30px;
+        padding-bottom:20px;box-shadow: 0 1px 1px rgba(0,0,0,0.11), 
+              0 2px 2px rgba(0,0,0,0.11), 
+              0 4px 4px rgba(0,0,0,0.11), 
+              0 8px 8px rgba(0,0,0,0.11), 
+              0 16px 16px rgba(0,0,0,0.11), 
+              0 32px 32px rgba(0,0,0,0.11);
+        border-radius: 3px;
+    }
+    .notice-message {
+        border-radius: 5px;
+        color: #FFFFFF;
+        border: 1px rgba(255,255,255,0.8) solid;
+        box-shadow:
+            inset 0 0 20px rgba(255,255,255,0.5),
+            0 0 20px rgba(255,255,255,0.5),
+            -6px 0 10px rgba(255, 51, 0, 0.2),
+            6px 0 10px rgba(251, 255, 0, 0.3);
+    }
     .vibrate-button {
         position: relative;
         width:50vw;
@@ -151,24 +215,24 @@ export default {
         0%, 100% {
             box-shadow:
                 inset 0 0 25px #fff,
-                inset 5px 0 20px rgb(94, 255, 0),
-                inset -5px 0 20px rgb(0, 255, 213),
-                inset 5px 0 50px rgba(0, 140, 255, 0.4),
-                inset -5px 0 50px rgba(0, 255, 179, 0.4),
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset -5px 0 20px rgb(238, 255, 0),
+                inset 5px 0 50px rgba(255, 0, 43, 0.4),
+                inset -5px 0 50px rgba(255, 196, 0, 0.4),
                 0 0 25px #fff,
-                -6px 0 20px rgb(0, 26, 255),
-                6px 0 20px rgb(0, 255, 13);
+                -6px 0 20px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
         50% {
             box-shadow:
-                inset 0 0 13px #fff,
-                inset 5px 0 40px rgb(0, 255, 213),
-                inset -5px 0 40px rgb(94, 255, 0),
-                inset 5px 0 75px rgb(0, 255, 179),
-                inset -5px 0 75px rgb(0, 140, 255),
-                0 0 13px #fff,
-                -3px 0 40px rgb(0, 255, 13),
-                3px 0 40px rgb(0, 26, 255);
+                inset 0 0 25px #fff,
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset 0px 0 10px rgb(238, 255, 0),
+                inset 20px 0 20px rgba(255, 0, 43, 0.4),
+                inset 30px 0 30px rgba(255, 196, 0, 0.4),
+                0 0 50px #fff,
+                20px 0 50px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
     }
 
@@ -176,74 +240,74 @@ export default {
         0%, 100% {
             box-shadow:
                 inset 0 0 25px #fff,
-                inset 5px 0 20px rgb(94, 255, 0),
-                inset -5px 0 20px rgb(0, 255, 213),
-                inset 5px 0 50px rgba(0, 140, 255, 0.4),
-                inset -5px 0 50px rgba(0, 255, 179, 0.4),
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset -5px 0 20px rgb(238, 255, 0),
+                inset 5px 0 50px rgba(255, 0, 43, 0.4),
+                inset -5px 0 50px rgba(255, 196, 0, 0.4),
                 0 0 25px #fff,
-                -6px 0 20px rgb(0, 26, 255),
-                6px 0 20px rgb(0, 255, 13);
+                -6px 0 20px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
         50% {
             box-shadow:
-                inset 0 0 13px #fff,
-                inset 5px 0 40px rgb(0, 255, 213),
-                inset -5px 0 40px rgb(94, 255, 0),
-                inset 5px 0 75px rgb(0, 255, 179),
-                inset -5px 0 75px rgb(0, 140, 255),
-                0 0 13px #fff,
-                -3px 0 40px rgb(0, 255, 13),
-                3px 0 40px rgb(0, 26, 255);
+                inset 0 0 25px #fff,
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset 0px 0 10px rgb(238, 255, 0),
+                inset 20px 0 20px rgba(255, 0, 43, 0.4),
+                inset 30px 0 30px rgba(255, 196, 0, 0.4),
+                0 0 50px #fff,
+                20px 0 50px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
     }
 
     @-moz-keyframes vibrate-button-box-shadow--normal {
         0%, 100% {
-            -moz-box-shadow:
+            box-shadow:
                 inset 0 0 25px #fff,
-                inset 5px 0 20px rgb(94, 255, 0),
-                inset -5px 0 20px rgb(0, 255, 213),
-                inset 5px 0 50px rgba(0, 140, 255, 0.4),
-                inset -5px 0 50px rgba(0, 255, 179, 0.4),
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset -5px 0 20px rgb(238, 255, 0),
+                inset 5px 0 50px rgba(255, 0, 43, 0.4),
+                inset -5px 0 50px rgba(255, 196, 0, 0.4),
                 0 0 25px #fff,
-                -6px 0 20px rgb(0, 26, 255),
-                6px 0 20px rgb(0, 255, 13);
+                -6px 0 20px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
         50% {
-            -moz-box-shadow:
-                inset 0 0 13px #fff,
-                inset 5px 0 40px rgb(0, 255, 213),
-                inset -5px 0 40px rgb(94, 255, 0),
-                inset 5px 0 75px rgb(0, 255, 179),
-                inset -5px 0 75px rgb(0, 140, 255),
-                0 0 13px #fff,
-                -3px 0 40px rgb(0, 255, 13),
-                3px 0 40px rgb(0, 26, 255);
+            box-shadow:
+                inset 0 0 25px #fff,
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset 0px 0 10px rgb(238, 255, 0),
+                inset 20px 0 20px rgba(255, 0, 43, 0.4),
+                inset 30px 0 30px rgba(255, 196, 0, 0.4),
+                0 0 50px #fff,
+                20px 0 50px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
     }
 
     @-webkit-keyframes vibrate-button-box-shadow--normal {
         0%, 100% {
-            -webkit-box-shadow:
+            box-shadow:
                 inset 0 0 25px #fff,
-                inset 5px 0 20px rgb(94, 255, 0),
-                inset -5px 0 20px rgb(0, 255, 213),
-                inset 5px 0 50px rgba(0, 140, 255, 0.4),
-                inset -5px 0 50px rgba(0, 255, 179, 0.4),
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset -5px 0 20px rgb(238, 255, 0),
+                inset 5px 0 50px rgba(255, 0, 43, 0.4),
+                inset -5px 0 50px rgba(255, 196, 0, 0.4),
                 0 0 25px #fff,
-                -6px 0 20px rgb(0, 26, 255),
-                6px 0 20px rgb(0, 255, 13);
+                -6px 0 20px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
         50% {
-            -webkit-box-shadow:
-                inset 0 0 13px #fff,
-                inset 5px 0 40px rgb(0, 255, 213),
-                inset -5px 0 40px rgb(94, 255, 0),
-                inset 5px 0 75px rgb(0, 255, 179),
-                inset -5px 0 75px rgb(0, 140, 255),
-                0 0 13px #fff,
-                -3px 0 40px rgb(0, 255, 13),
-                3px 0 40px rgb(0, 26, 255);
+            box-shadow:
+                inset 0 0 25px #fff,
+                inset 5px 0 20px rgb(255, 0, 0),
+                inset 0px 0 10px rgb(238, 255, 0),
+                inset 20px 0 20px rgba(255, 0, 43, 0.4),
+                inset 30px 0 30px rgba(255, 196, 0, 0.4),
+                0 0 50px #fff,
+                20px 0 50px rgb(255, 51, 0),
+                6px 0 20px rgb(251, 255, 0);
         }
     }
 
@@ -252,4 +316,63 @@ export default {
         width: 30px;
         height: 30px;
     }
+
+    /** START:: Popup*/
+        .overlay {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: visible;
+            z-index:86555;
+        }
+        .popup {
+            margin: 70px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 0px;
+            width: 60%;
+            position: relative;
+            /*transition: all 5s ease-in-out;*/
+        }
+        .popup h2 {
+            margin-top: 0;
+            color: #333;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+        .popup .close {
+            position: absolute;
+            transition: all 200ms;
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #FFFFFF;
+            top: -17px;
+            right: -8px;
+            background: #ff4747;
+            padding: 3px 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .popup .close:hover {
+            background: #0A0A0A;
+        }
+        .popup .content {
+            position: relative;
+            display: block;
+            max-height: 30%;
+            overflow: auto;
+        }
+        @media screen and (max-width: 700px){
+            .box{
+                width: 70%;
+            }
+            .popup{
+                width: 70%;
+            }
+        }
+    /** END:: Popup*/
 </style>
