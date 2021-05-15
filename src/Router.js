@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 
 import RecordComponent from '@/components/RecordComponent.vue'
 import PlaybackComponent from '@/components/PlaybackComponent.vue'
+import LearnComponent from '@/components/LearnComponent.vue'
+import ContactComponent from '@/components/ContactComponent.vue'
 import NoSupportComponent from '@/components/NoSupportComponent.vue'
 import NotFoundComponent from '@/components/NotFoundComponent.vue'
 
@@ -33,6 +35,18 @@ const routes = [
                 next('/nosupport');
             }
         }
+    },
+    {
+        name: 'learn',
+        path: '/learn',
+        component: LearnComponent,
+        props: true
+    },
+    {
+        name: 'contact',
+        path: '/contact',
+        component: ContactComponent,
+        props: true
     },
     {
         name: 'nosupport',
